@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="col-md-12 my-4">
+      <h2 class="display-5 text-center">Find Your Favourite Books</h2>
+        <form action="" method="POST" class="row justify-content-center align-items-center my-4">
+            {% csrf_token %}
+            <div class="col-md-6">
+                <input type="text" name="book" class="form-control" placeholder="Enter you favourite book" id="book" />
+            </div>
+            <div class="col-md-2 d-grid">
+                <button class="btn btn-info">Search Book</button>
+            </div>
+        </form>
+  </div>
+{% endblock content %}
