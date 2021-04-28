@@ -15,9 +15,31 @@
     {% if books %}
       <div class="row">
           <div class="col-md-12">
-              {% for book in books %}
-                <p>{{book.title}}</p>
-              {% endfor %}
+              <h3>Found {{books.count}} Books</h3>
+              <table class="table table-striped">
+                  <thead>
+                      <tr>
+                          <th>#</th>
+                          <th>Title</th>
+                          <th>Author</th>
+                          <th>Language</th>
+                          <th>Book Format</th>
+                          <th></th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                     {% for book in books %}
+                       <tr>
+                           <td>{{forloop.counter}}</td>
+                           <td>{{book.title}}</td>
+                           <td>{{book.author}}</td>
+                           <td>{{book.language}}</td>
+                           <td>{{book.book_format}}</td>
+                           <td><a href="{% url 'libgen:view_book' book.id %}">View Details</a></td>
+                       </tr>
+                     {% endfor %}
+                  </tbody>
+              </table>
           </div>
       </div>
     {% endif %}

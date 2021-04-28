@@ -10,6 +10,11 @@ class Books(models.Model):
     book_format = models.CharField(max_length=255)
     size = models.CharField(max_length=255)
     url = models.CharField(max_length=255)
+    image = models.CharField(
+        max_length=255,
+        blank=True,
+        default="https://d827xgdhgqbnd.cloudfront.net/wp-content/uploads/2016/04/09121712/book-cover-placeholder.png",
+    )
     ip = models.CharField(max_length=255)
 
     def __str__(self):

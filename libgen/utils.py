@@ -120,6 +120,8 @@ def search_book(query):
             res = requests.get(url, headers=headers)
             soup = BeautifulSoup(res.text, "html.parser")
             download_url = soup.find("a").get("href")
+            image_src = soup.find("img").get("src")
+            image_url = f"http://{res.url[7:].split('/')[0]}{image_src}"
 
             books.append(
                 {
@@ -130,6 +132,7 @@ def search_book(query):
                     "format": extension,
                     "size": size,
                     "url": download_url,
+                    "image_url": image_url,
                 }
             )
 

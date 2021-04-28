@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="col-md-12 my-4">
+      <a href="{% url 'libgen:home' %}" class="btn btn-link btn-sm">Go Back</a>
+      <div class="row my-2">
+          <div class="col-md-3 d-flex justify-content-center">
+            <img src="{{book.image}}" alt="{{book.title}}" class="img-fluid">
+          </div>
+          <div class="col-md-9">
+            <h2 class="mb-4">{{book.title}}</h2>
+            <p><strong>Author: </strong>{{book.author}}</p>
+            <p><strong>Language: </strong>{{book.language}}</p>
+            <p><strong>Pages: </strong>{{book.pages}}</p>
+            <p><strong>Format: </strong>{{book.book_format}}</p>
+            <p><strong>Size: </strong>{{book.size}}</p>
+            <a href="{{book.url}}" class="btn btn-success">Download</a>
+          </div>
+      </div>
+  </div>
+{% endblock content %}
