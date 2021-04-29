@@ -13,6 +13,11 @@ from tabulate import tabulate
 chrome_options = Options()
 chrome_options.add_argument("--headless")
 
+# Chrome options for heroku
+chrome_options.add_argument("--disable-dev-shm-usage")
+chrome_options.add_argument("--no-sandbox")
+chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+
 headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36"
 }
@@ -58,9 +63,16 @@ def tabulate_recommendations(data):
 
 # Search Book Function
 def search_book(query):
+    # driver = webdriver.Chrome(
+    #     ChromeDriverManager().install(), options=chrome_options
+    # )
+
+    # Chrome driver for heroku
     driver = webdriver.Chrome(
-        ChromeDriverManager().install(), options=chrome_options
+        executable_path=os.environ.get("CHROMEDRIVER_PATH"),
+        chrome_options=chrome_options,
     )
+
     url = "http://gen.lib.rus.ec"
     driver.get(url)
     print("Please wait while we look for your book...")
