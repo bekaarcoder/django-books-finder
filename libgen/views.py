@@ -1,5 +1,7 @@
 from django.shortcuts import render
 import socket
+from rq import Queue
+from worker import conn
 from .utils import search_book
 from .models import Books
 
@@ -27,7 +29,14 @@ def home_view(request):
         ip_address = socket.gethostbyname(hostname)
         old_books = Books.objects.filter(ip=ip_address)
         old_books.delete()
-        books = search_book(search_keyword)
+
+        # uncomment while running in local and comment the queue
+        # books = search_book(search_keyword)
+
+        # Creating a queue for background process
+        q = Queue(connection=conn)
+        books = q.enqueue(search_book, search_keyword)
+
         for book in books:
             Books.objects.create(
                 keyword=search_keyword,
