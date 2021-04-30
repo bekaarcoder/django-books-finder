@@ -36,6 +36,7 @@ def home_view(request):
         # Creating a queue for background process
         q = Queue(connection=conn)
         books = q.enqueue(search_book, search_keyword)
+        print("Printing worker job object: ", books)
 
         for book in books:
             Books.objects.create(
