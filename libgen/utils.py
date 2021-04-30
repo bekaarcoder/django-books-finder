@@ -68,7 +68,7 @@ def get_books():
 
 
 # Search Book Function
-def search_book(query):
+def search_book(query, ip_address):
     # driver = webdriver.Chrome(
     #     ChromeDriverManager().install(), options=chrome_options
     # )
@@ -171,7 +171,7 @@ def search_book(query):
                 size=book["size"],
                 url=book["url"],
                 image=book["image_url"],
-                ip="1234",
+                ip=ip_address,
             )
 
         return books

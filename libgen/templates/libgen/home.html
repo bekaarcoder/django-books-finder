@@ -42,6 +42,19 @@
               </table>
           </div>
       </div>
+    {% else %}
+      <div class="row">
+          <div class="col-md-12">
+              <p class="text-center lead">No books to display</p>
+          </div>
+      </div>
+    {% endif %}
+    {% if message %}
+    <div class="row">
+        <div class="col-md-12">
+            <p class="text-center lead">{{message}}</p>
+        </div>
+    </div>
     {% endif %}
   </div>
 {% endblock content %}

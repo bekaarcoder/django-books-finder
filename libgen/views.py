@@ -27,8 +27,7 @@ def home_view(request):
 
     if request.method == "POST":
         search_keyword = request.POST["book"]
-        hostname = socket.gethostname()
-        ip_address = socket.gethostbyname(hostname)
+        ip_address = get_ip()
         old_books = Books.objects.filter(ip=ip_address)
         old_books.delete()
 
@@ -45,7 +44,7 @@ def home_view(request):
         # q_len = len(q)
         # print(f"Task queued. {q_len} jobs queued.")
 
-        task = django_rq.enqueue(search_book, search_keyword)
+        task = django_rq.enqueue(search_book, search_keyword, ip_address)
 
         # for book in books:
         #     Books.objects.create(
@@ -62,7 +61,9 @@ def home_view(request):
         #     )
         # all_books = Books.objects.filter(ip=ip_address)
         # context = {"books": all_books}
-        context = {"jobs": "1"}
+        context = {
+            "message": "We are searching for you book. Please hang on..."
+        }
         return render(request, "libgen/home.html", context)
 
 
