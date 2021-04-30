@@ -160,6 +160,20 @@ def search_book(query):
         driver.close()
         driver.quit()
 
+        for book in books:
+            Books.objects.create(
+                keyword=query,
+                title=book["title"],
+                author=book["author"],
+                language=book["language"],
+                pages=book["pages"],
+                book_format=book["format"],
+                size=book["size"],
+                url=book["url"],
+                image=book["image_url"],
+                ip="1234",
+            )
+
         return books
 
 
