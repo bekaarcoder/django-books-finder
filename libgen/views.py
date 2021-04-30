@@ -36,25 +36,27 @@ def home_view(request):
 
         # Creating a queue for background process
         q = Queue(connection=conn)
-        books = q.enqueue(search_book, search_keyword)
-        time.sleep(90)
-        print("Printing worker job object: ", books.result)
+        task = q.enqueue(search_book, search_keyword, ip_address)
+        jobs = q.jobs
+        q_len = len(q)
+        print(f"Task queued. {q_len} jobs queued.")
 
-        for book in books:
-            Books.objects.create(
-                keyword=search_keyword,
-                title=book["title"],
-                author=book["author"],
-                language=book["language"],
-                pages=book["pages"],
-                book_format=book["format"],
-                size=book["size"],
-                url=book["url"],
-                image=book["image_url"],
-                ip=ip_address,
-            )
-        all_books = Books.objects.filter(ip=ip_address)
-        context = {"books": all_books}
+        # for book in books:
+        #     Books.objects.create(
+        #         keyword=search_keyword,
+        #         title=book["title"],
+        #         author=book["author"],
+        #         language=book["language"],
+        #         pages=book["pages"],
+        #         book_format=book["format"],
+        #         size=book["size"],
+        #         url=book["url"],
+        #         image=book["image_url"],
+        #         ip=ip_address,
+        #     )
+        # all_books = Books.objects.filter(ip=ip_address)
+        # context = {"books": all_books}
+        context = {"jobs": q_len}
         return render(request, "libgen/home.html", context)
 
 
