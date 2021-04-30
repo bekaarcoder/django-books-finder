@@ -4,6 +4,7 @@ from rq import Queue
 from worker import conn
 from .utils import search_book
 from .models import Books
+import time
 
 
 def get_ip():
@@ -36,7 +37,8 @@ def home_view(request):
         # Creating a queue for background process
         q = Queue(connection=conn)
         books = q.enqueue(search_book, search_keyword)
-        print("Printing worker job object: ", books)
+        time.sleep(90)
+        print("Printing worker job object: ", books.result)
 
         for book in books:
             Books.objects.create(
