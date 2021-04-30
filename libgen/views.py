@@ -62,7 +62,7 @@ def home_view(request):
         # all_books = Books.objects.filter(ip=ip_address)
         # context = {"books": all_books}
         context = {
-            "message": "We are searching for you book. Please hang on..."
+            "message": "We are searching for your book. Please hang on..."
         }
         return render(request, "libgen/home.html", context)
 
