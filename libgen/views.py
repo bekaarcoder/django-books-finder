@@ -1,8 +1,9 @@
 from django.shortcuts import render
 import socket
+import django_rq
 from rq import Queue
 from worker import conn
-from .utils import search_book
+from .utils import search_book, get_books
 from .models import Books
 import time
 
@@ -31,15 +32,20 @@ def home_view(request):
         old_books = Books.objects.filter(ip=ip_address)
         old_books.delete()
 
+        books = get_books()
+        print(books)
+
         # uncomment while running in local and comment the queue
         # books = search_book(search_keyword)
 
         # Creating a queue for background process
-        q = Queue(connection=conn)
-        task = q.enqueue(search_book, search_keyword, ip_address)
-        jobs = q.jobs
-        q_len = len(q)
-        print(f"Task queued. {q_len} jobs queued.")
+        # q = Queue(connection=conn)
+        # task = q.enqueue(search_book, search_keyword, ip_address)
+        # jobs = q.jobs
+        # q_len = len(q)
+        # print(f"Task queued. {q_len} jobs queued.")
+
+        task = django_rq.enqueue(search_book, search_keyword)
 
         # for book in books:
         #     Books.objects.create(
@@ -56,7 +62,7 @@ def home_view(request):
         #     )
         # all_books = Books.objects.filter(ip=ip_address)
         # context = {"books": all_books}
-        context = {"jobs": q_len}
+        context = {"jobs": "1"}
         return render(request, "libgen/home.html", context)
 
 

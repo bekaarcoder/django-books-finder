@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import django_heroku
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "libgen",
+    "django_rq",
 ]
 
 MIDDLEWARE = [
@@ -130,5 +132,12 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+RQ_QUEUES = {
+    "default": {
+        "URL": os.getenv("REDISTOGO_URL", "redis://localhost:6379/0"),
+        "DEFAULT_TIMEOUT": 500,
+    }
+}
 
 django_heroku.settings(locals())

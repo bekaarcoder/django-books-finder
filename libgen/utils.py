@@ -62,8 +62,13 @@ def tabulate_recommendations(data):
     )
 
 
+# testing get books
+def get_books():
+    print(Books.objects.all())
+
+
 # Search Book Function
-def search_book(query, ip_address):
+def search_book(query):
     # driver = webdriver.Chrome(
     #     ChromeDriverManager().install(), options=chrome_options
     # )
@@ -154,21 +159,6 @@ def search_book(query, ip_address):
 
         driver.close()
         driver.quit()
-
-        # store Books in database
-        for book in books:
-            Books.objects.create(
-                keyword=query,
-                title=book["title"],
-                author=book["author"],
-                language=book["language"],
-                pages=book["pages"],
-                book_format=book["format"],
-                size=book["size"],
-                url=book["url"],
-                image=book["image_url"],
-                ip=ip_address,
-            )
 
         return books
 
